@@ -1,31 +1,110 @@
-# Change these first
-owner: upptime # Your GitHub organization or username, where this repository lives
-repo: upptime # The name of this repository
+# Upptime configuration for status.threaddesk.io
+#
+# Copy this file to the root of the status repository (created from the
+# upptime/upptime template) as `.upptimerc.yml`. Setup steps: docs/STATUS_PAGE.md.
+#
+# How the backend components work: each URL is GET /api/status/<id>, which
+# always answers 200 with exactly one "status" field. Upptime marks the site
+#   down      if the body contains "status":"down" (or the request fails),
+#   degraded  if it contains "status":"degraded",
+#   down      if "component":"<id>" is missing — i.e. the body is not ours at
+#             all (a Cloudflare challenge page, a proxy error page).
+# "unknown" matches nothing and is shown as up; see services/statusService.js.
+#
+# Slugs are explicit because incidents are GitHub issues labelled
+# `status` + <slug>; a hand-written incident needs to know them.
+
+owner: GYBCommerce          # the GitHub org/user that owns the status repo
+repo: threaddesk-status     # the status repo's name
+
+user-agent: threaddesk-status-monitor
 
 sites:
-  - name: Google
-    url: https://www.google.com
-  - name: Wikipedia
-    url: https://en.wikipedia.org
-  - name: Hacker News
-    url: https://news.ycombinator.com
-  - name: Secret Site
-    url: $SECRET_SITE
+  - name: Dashboard & API
+    slug: api
+    url: https://api.threaddesk.io/api/status/api
+    maxResponseTime: 10000
+    __dangerous__body_down: '"status":"down"'
+    __dangerous__body_degraded: '"status":"degraded"'
+    __dangerous__body_down_if_text_missing: '"component":"api"'
+
+  - name: WhatsApp messaging
+    slug: whatsapp
+    url: https://api.threaddesk.io/api/status/whatsapp
+    maxResponseTime: 10000
+    __dangerous__body_down: '"status":"down"'
+    __dangerous__body_degraded: '"status":"degraded"'
+    __dangerous__body_down_if_text_missing: '"component":"whatsapp"'
+
+  - name: Email delivery
+    slug: email
+    url: https://api.threaddesk.io/api/status/email
+    maxResponseTime: 10000
+    __dangerous__body_down: '"status":"down"'
+    __dangerous__body_degraded: '"status":"degraded"'
+    __dangerous__body_down_if_text_missing: '"component":"email"'
+
+  - name: AI answers
+    slug: ai
+    url: https://api.threaddesk.io/api/status/ai
+    maxResponseTime: 10000
+    __dangerous__body_down: '"status":"down"'
+    __dangerous__body_degraded: '"status":"degraded"'
+    __dangerous__body_down_if_text_missing: '"component":"ai"'
+
+  - name: Automations
+    slug: automations
+    url: https://api.threaddesk.io/api/status/automations
+    maxResponseTime: 10000
+    __dangerous__body_down: '"status":"down"'
+    __dangerous__body_degraded: '"status":"degraded"'
+    __dangerous__body_down_if_text_missing: '"component":"automations"'
+
+  - name: Store integrations
+    slug: integrations
+    url: https://api.threaddesk.io/api/status/integrations
+    maxResponseTime: 10000
+    __dangerous__body_down: '"status":"down"'
+    __dangerous__body_degraded: '"status":"degraded"'
+    __dangerous__body_down_if_text_missing: '"component":"integrations"'
+
+  # Static surfaces: checked directly, no backend involved.
+  - name: Website chat widget
+    slug: widget
+    url: https://api.threaddesk.io/widget/widget.js
+    maxResponseTime: 10000
+
+  # The portal is a single-page app: every path answers 200 with index.html,
+  # so a real static file is fetched instead of "/".
+  - name: Web app
+    slug: web-app
+    url: https://app.threaddesk.io/logo-mark.svg
+    maxResponseTime: 10000
+
+  - name: Website
+    slug: website
+    url: https://threaddesk.io
+    maxResponseTime: 10000
 
 status-website:
-  # Add your custom domain name, or remove the `cname` line if you don't have a domain
-  # Uncomment the `baseUrl` line if you don't have a custom domain and add your repo name there
-  cname: demo.upptime.js.org
-  # baseUrl: /your-repo-name
-  logoUrl: https://raw.githubusercontent.com/upptime/upptime.js.org/master/static/img/icon.svg
-  name: Upptime
-  introTitle: "**Upptime** is the open-source uptime monitor and status page, powered entirely by GitHub."
-  introMessage: This is a sample status page which uses **real-time** data from our [GitHub repository](https://github.com/upptime/upptime). No server required — just GitHub Actions, Issues, and Pages. [**Get your own for free**](https://github.com/upptime/upptime)
+  cname: status.threaddesk.io
+  name: ThreadDesk Status
+  logoUrl: https://threaddesk.io/logo-mark.svg
+  faviconSvg: https://threaddesk.io/icon.svg
+  introTitle: "ThreadDesk system status"
+  introMessage: >-
+    Live status of each part of ThreadDesk, checked automatically every few
+    minutes. Problems with a single workspace (for example a disconnected
+    WhatsApp number) are shown inside that workspace, not here.
   navbar:
     - title: Status
       href: /
-    - title: GitHub
-      href: https://github.com/$OWNER/$REPO
+    - title: ThreadDesk
+      href: https://threaddesk.io
+    - title: Help
+      href: https://docs.threaddesk.io
+  theme: light
 
-# Upptime also supports notifications, assigning issues, and more
-# See https://upptime.js.org/docs/configuration
+# Incidents are GitHub issues in the status repo, assigned to these people.
+assignees: []
+
