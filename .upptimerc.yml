@@ -89,7 +89,10 @@ sites:
 status-website:
   cname: status.threaddesk.io
   name: ThreadDesk Status
-  logoUrl: https://threaddesk.io/logo-mark.svg
+  # The official lockup already says "ThreadDesk", so the text title beside it is
+  # hidden; `name` still sets the browser tab title.
+  logoUrl: https://threaddesk.io/logo-lockup-dark.png
+  hideNavTitle: true
   faviconSvg: https://threaddesk.io/icon.svg
   introTitle: "ThreadDesk system status"
   introMessage: >-
